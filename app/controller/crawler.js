@@ -5,7 +5,7 @@ const Controller = require('egg').Controller;
 class HomeController extends Controller {
   async jianshu() {
 		const { ctx, service } = this; 
-		const res = await service.crawler.getHomeData();
+		const res = await service.crawler.getHotmodelData();
     ctx.body = res;
   }
 }

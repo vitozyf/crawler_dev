@@ -9,7 +9,7 @@ const cheerio = require('cheerio');
 const reptileUrl = 'https://www.bom.ai/hotmodel';
 
 class Crawler extends Service {
-	async getJianshuIndexDomData() {
+	async getHotmodelDomData() {
 		try {
 			return await superagent.get(reptileUrl);
 		} catch (err) {
@@ -26,20 +26,21 @@ class Crawler extends Service {
 			const heatString = _this.find('.bom_second_icon').text();
 			if (!isNaN(heatString)) {
 				data.push({
-					heatNumber: Number(heatString),
-					model: _this.find('p a').text()
+					id: Number(heatString),
+					model: _this.find('p a').text(),
+					updatedTime: (new Date()).toLocaleString()
 				});
 			}
     });
 		return data
 	}
 	
-  async getHomeData() {
-		const DomData = await this.getJianshuIndexDomData();
+  async getHotmodelData() {
+		const DomData = await this.getHotmodelDomData();
 		const data = await this.analyzeRes(DomData);
 		let res = null;
 		try {
-			res = await db.HotModel.bulkCreate(data);
+			res = await db.HotModel.bulkCreate(data, {updateOnDuplicate: ['model', 'updatedTime', 'updatedAt']});
 		} catch (error) {
 			throw error
 		}
