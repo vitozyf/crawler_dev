@@ -6,12 +6,13 @@ const db = require('../db/models')
 const superagent = require('superagent');
 const cheerio = require('cheerio');
 
-const reptileUrl = 'https://www.bom.ai/hotmodel';
+const hotmodelUrl = 'https://www.bom.ai/hotmodel';
+const modelDetailUrl = "https://www.bom.ai/ensurestock/"
 
 class Crawler extends Service {
-	async getHotmodelDomData() {
+	async getUrlRes(url) {
 		try {
-			return await superagent.get(reptileUrl);
+			return await superagent.get(url);
 		} catch (err) {
 			throw err;
 		}
@@ -28,7 +29,7 @@ class Crawler extends Service {
 				data.push({
 					id: Number(heatString),
 					model: _this.find('p a').text(),
-					updatedTime: (new Date()).toLocaleString()
+					updatedTime: new Date()
 				});
 			}
     });
@@ -36,7 +37,7 @@ class Crawler extends Service {
 	}
 	
   async getHotmodelData() {
-		const DomData = await this.getHotmodelDomData();
+		const DomData = await this.getUrlRes(hotmodelUrl);
 		const data = await this.analyzeRes(DomData);
 		let res = null;
 		try {
@@ -45,7 +46,18 @@ class Crawler extends Service {
 			throw error
 		}
     return res;
-  }
+	}
+	
+	async getModelDetails(model = 'STM8S003F3P6'){
+		let  DomData = null;
+		// return `${modelDetailUrl}${model}.html`
+		try {
+			DomData = await superagent.get('https://s.hqew.com/BM43THA80C.html');
+		} catch (err) {
+			throw err;
+		}
+		return DomData
+	}
 }
 
 module.exports = Crawler;

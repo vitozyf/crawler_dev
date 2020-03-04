@@ -5,5 +5,6 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  router.get('/jianshu', controller.crawler.jianshu);
+	router.get('/getHotmodelData', controller.crawler.getHotmodelData);
+	router.get('/getModelDetails', controller.crawler.getModelDetails);
 };

@@ -9,19 +9,19 @@ module.exports = {
       Example:
       return queryInterface.createTable('users', { id: Sequelize.INTEGER });
     */
-	 const transaction = await queryInterface.sequelize.transaction();
-	 try {
-			 await queryInterface.removeColumn(
-					 'HotModels',
-					 'heatNumber',
-					 { transaction }
-			 );
+		const transaction = await queryInterface.sequelize.transaction();
+		try {
+				await queryInterface.removeColumn(
+						'HotModels',
+						'heatNumber',
+						{ transaction }
+				);
 
-			 await transaction.commit();
-	 } catch (err) {
-			 await transaction.rollback();
-			 throw err;
-	 }
+				await transaction.commit();
+		} catch (err) {
+				await transaction.rollback();
+				throw err;
+		}
   },
 
   down: async (queryInterface, Sequelize) => {
