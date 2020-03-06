@@ -118,7 +118,8 @@ class ExchangeRate extends Service {
         'cashOffer',
         'bankofChinadiscountedPrice',
         'releaseDate',
-        'releaseTime'
+        'releaseTime',
+        'updatedAt'
       ]
     });
 
