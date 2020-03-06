@@ -8,7 +8,8 @@ class updateEensurestock extends Subscription {
   static get schedule() {
     return {
       cron: '*/12 * * * *',
-      type: 'all'
+      type: 'all',
+      disable: true
     };
   }
 
