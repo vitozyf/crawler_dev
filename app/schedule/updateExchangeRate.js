@@ -5,7 +5,7 @@ const Subscription = require('egg').Subscription;
 class UpdateExchangeRate extends Subscription {
   static get schedule() {
     return {
-      cron: '* */1 * * *',
+      cron: '30 * * * *',
       type: 'all'
     };
   }
